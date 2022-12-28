@@ -74,30 +74,30 @@ jobs:
       # Upload conduit build
       - name: 'Release: Upload "conduit/wpilibio:nativezip"'
         if: github.event_name == 'release'
-        run: bazelisk run --config=athena --define "maven_repo=https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //conduit/wpilibio:nativezip.publish
+        run: bazelisk run --config=athena --define "maven_repo=https://maven.pkg.github.com/jwbonner/AdvantageKit" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //conduit/wpilibio:nativezip.publish
         env:
-          GITHUB_ACTOR: Mechanical-Advantage
+          GITHUB_ACTOR: jwbonner
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: 'Release: Upload "conduit/wpilibio:pom"'
         if: github.event_name == 'release'
-        run: bazelisk run --config=athena --define "maven_repo=https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //conduit/wpilibio:pom.publish
+        run: bazelisk run --config=athena --define "maven_repo=https://maven.pkg.github.com/jwbonner/AdvantageKit" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //conduit/wpilibio:pom.publish
         env:
-          GITHUB_ACTOR: Mechanical-Advantage
+          GITHUB_ACTOR: jwbonner
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Upload Java packages
       - name: 'Release: Upload "conduit/api"'
         if: github.event_name == 'release'
-        run: bazelisk run --define "maven_repo=https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit" --define "maven_user=Mechanical-Advantage" --define "maven_password=${{ secrets.GITHUB_TOKEN }}" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //conduit/api:api-export.publish
+        run: bazelisk run --define "maven_repo=https://maven.pkg.github.com/jwbonner/AdvantageKit" --define "maven_user=jwbonner" --define "maven_password=${{ secrets.GITHUB_TOKEN }}" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //conduit/api:api-export.publish
       - name: 'Release: Upload "junction/core"'
         if: github.event_name == 'release'
-        run: bazelisk run --define "maven_repo=https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit" --define "maven_user=Mechanical-Advantage" --define "maven_password=${{ secrets.GITHUB_TOKEN }}" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //junction/core:core-export.publish
+        run: bazelisk run --define "maven_repo=https://maven.pkg.github.com/jwbonner/AdvantageKit" --define "maven_user=jwbonner" --define "maven_password=${{ secrets.GITHUB_TOKEN }}" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //junction/core:core-export.publish
       - name: 'Release: Upload "junction/autolog"'
         if: github.event_name == 'release'
-        run: bazelisk run --define "maven_repo=https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit" --define "maven_user=Mechanical-Advantage" --define "maven_password=${{ secrets.GITHUB_TOKEN }}" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //junction/autolog:autolog-export.publish
+        run: bazelisk run --define "maven_repo=https://maven.pkg.github.com/jwbonner/AdvantageKit" --define "maven_user=jwbonner" --define "maven_password=${{ secrets.GITHUB_TOKEN }}" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //junction/autolog:autolog-export.publish
       - name: 'Release: Upload "junction/shims/wpilib"'
         if: github.event_name == 'release'
-        run: bazelisk run --define "maven_repo=https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit" --define "maven_user=Mechanical-Advantage" --define "maven_password=${{ secrets.GITHUB_TOKEN }}" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //junction/shims/wpilib:wpilib-export.publish
+        run: bazelisk run --define "maven_repo=https://maven.pkg.github.com/jwbonner/AdvantageKit" --define "maven_user=jwbonner" --define "maven_password=${{ secrets.GITHUB_TOKEN }}" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //junction/shims/wpilib:wpilib-export.publish
 
   desktop:
     strategy:
@@ -131,13 +131,13 @@ jobs:
       # Upload conduit build
       - name: 'Release: Upload "conduit/wpilibio:nativezip" for macOS'
         if: github.event_name == 'release' && matrix.host.displayName == 'macOS'
-        run: bazelisk run --define "maven_repo=https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //conduit/wpilibio/osxuniversal:nativezip.publish
+        run: bazelisk run --define "maven_repo=https://maven.pkg.github.com/jwbonner/AdvantageKit" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //conduit/wpilibio/osxuniversal:nativezip.publish
         env:
-          GITHUB_ACTOR: Mechanical-Advantage
+          GITHUB_ACTOR: jwbonner
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: 'Release: Upload "conduit/wpilibio:nativezip"'
         if: github.event_name == 'release' && matrix.host.displayName != 'macOS'
-        run: bazelisk run --define "maven_repo=https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //conduit/wpilibio:nativezip.publish
+        run: bazelisk run --define "maven_repo=https://maven.pkg.github.com/jwbonner/AdvantageKit" --define "publishing_version=${{ steps.get_version.outputs.version-without-v }}" //conduit/wpilibio:nativezip.publish
         env:
-          GITHUB_ACTOR: Mechanical-Advantage
+          GITHUB_ACTOR: jwbonner
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
