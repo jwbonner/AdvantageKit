@@ -18,8 +18,7 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "11"
-      - name: "Build all"
-        run: bazelisk build --config=athena --verbose_failures ...
+
       - name: "Release: Get version number"
         id: get_version
         if: github.event_name == 'release'
@@ -30,6 +29,14 @@ jobs:
         uses: bruceadams/get-release@v1.2.3
         env:
           GITHUB_TOKEN: ${{ github.token }}
+
+      - name: "Print version info"
+        if: github.event_name == 'release'
+        run: echo ${{ steps.get_version.outputs.version-without-v }}
+          echo ${{ steps.get_release_info.outputs.upload_url }}
+
+      - name: "Build all"
+        run: bazelisk build --config=athena --verbose_failures ...
 
       # Upload vendordep
       - name: "Release: Generate vendordep"
