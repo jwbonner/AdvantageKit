@@ -42,7 +42,7 @@ publishing {
         }
         maven {
             name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit"
+            url = "https://maven.pkg.github.com/jwbonner/AdvantageKit"
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
