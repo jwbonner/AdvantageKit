@@ -37,6 +37,8 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "17"
+      - name: "Setup Python"
+        uses: actions/setup-python@v5
       - name: "Install RoboRIO toolchain"
         if: matrix.name == 'Athena'
         run: ./gradlew :akit:installRoboRioToolchain
@@ -65,10 +67,8 @@ jobs:
         if: github.event_name == 'release' && matrix.name != 'Athena'
         run: |
           ./gradlew :akit:build -PpublishingVersion=${{ steps.get_version.outputs.version-without-v }} ${{ matrix.build-options }}
-          python3 -m venv venv
-          source ./venv/bin/activate
-          pip3 install requests
-          python3 publish_zip.py --url https://maven.pkg.github.com/jwbonner/AdvantageKit --group_id org.littletonrobotics.akit --artifact_id akit-wpilibio --version ${{ steps.get_version.outputs.version-without-v }} --classifier ${{ matrix.classifier }} --file_path akit/build/allOutputs/_M__GROUP_org_littletonrobotics_akit_ID_akit-wpilibio_CLS-${{ matrix.classifier }}.zip --username Mechanical-Advantage --access_token ${{ secrets.GITHUB_TOKEN }}
+          pip install requests
+          python publish_zip.py --url https://maven.pkg.github.com/jwbonner/AdvantageKit --group_id org.littletonrobotics.akit --artifact_id akit-wpilibio --version ${{ steps.get_version.outputs.version-without-v }} --classifier ${{ matrix.classifier }} --file_path akit/build/allOutputs/_M__GROUP_org_littletonrobotics_akit_ID_akit-wpilibio_CLS-${{ matrix.classifier }}.zip --username Mechanical-Advantage --access_token ${{ secrets.GITHUB_TOKEN }}
       - name: "Release: Upload vendordep"
         if: github.event_name == 'release' && matrix.name == 'Athena'
         uses: actions/upload-release-asset@v1
