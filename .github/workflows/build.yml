@@ -68,7 +68,7 @@ jobs:
           python3 -m venv venv
           source ./venv/bin/activate
           pip3 install requests
-          python3 publish_zip.py --url https://maven.pkg.github.com/jwbonner/AdvantageKit --group_id org.littletonrobotics.akit --artifact_id akit-wpilibio --version ${{ steps.get_version.outputs.version-without-v }} --classifier ${{ matrix.host.classifier }} --file_path akit/build/allOutputs/_M__GROUP_org_littletonrobotics_akit_ID_akit-wpilibio_CLS-${{ matrix.host.classifier }}.zip --username Mechanical-Advantage --access_token ${{ secrets.GITHUB_TOKEN }}
+          python3 publish_zip.py --url https://maven.pkg.github.com/jwbonner/AdvantageKit --group_id org.littletonrobotics.akit --artifact_id akit-wpilibio --version ${{ steps.get_version.outputs.version-without-v }} --classifier ${{ matrix.classifier }} --file_path akit/build/allOutputs/_M__GROUP_org_littletonrobotics_akit_ID_akit-wpilibio_CLS-${{ matrix.host.classifier }}.zip --username Mechanical-Advantage --access_token ${{ secrets.GITHUB_TOKEN }}
       - name: "Release: Upload vendordep"
         if: github.event_name == 'release' && matrix.name == 'Athena'
         uses: actions/upload-release-asset@v1
