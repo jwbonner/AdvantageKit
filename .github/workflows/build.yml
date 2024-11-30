@@ -63,7 +63,9 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
       - name: "Release: Publish (Manual)"
         if: github.event_name == 'release' && matrix.name != 'Athena'
-        run: python3 build_tools/repo/publish_zip.py --url https://maven.pkg.github.com/jwbonner/AdvantageKit --group_id org.littletonrobotics.akit --artifact_id akit-wpilibio --version ${{ steps.get_version.outputs.version-without-v }} --classifier ${{ matrix.host.classifier }} --file_path bazel-bin/conduit/wpilibio/wpilibio-${{ steps.get_version.outputs.version-without-v }}-${{ matrix.host.classifier }}.zip --username Mechanical-Advantage --access_token ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ./gradlew :akit:build -PpublishingVersion=${{ steps.get_version.outputs.version-without-v }} ${{ matrix.build-options }}
+          python3 build_tools/repo/publish_zip.py --url https://maven.pkg.github.com/jwbonner/AdvantageKit --group_id org.littletonrobotics.akit --artifact_id akit-wpilibio --version ${{ steps.get_version.outputs.version-without-v }} --classifier ${{ matrix.host.classifier }} --file_path akit/build/allOutputs/_M__GROUP_org_littletonrobotics_akit_ID_akit-wpilibio_CLS-${{ matrix.host.classifier }}.zip --username Mechanical-Advantage --access_token ${{ secrets.GITHUB_TOKEN }}
       - name: "Release: Upload vendordep"
         if: github.event_name == 'release' && matrix.name == 'Athena'
         uses: actions/upload-release-asset@v1
