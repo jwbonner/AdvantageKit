@@ -20,7 +20,7 @@ url = f"{args.url}/{args.group_id.replace('.', '/')}/{args.artifact_id}/{args.ve
 
 for file_path in args.file_paths:
     # Read the contents of the zip file
-    with open(args.file_path, "rb") as f:
+    with open(file_path, "rb") as f:
         zip_data = f.read()
 
     # Generate the SHA-256 hash of the zip file
