@@ -132,22 +132,22 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: "Linux (x64)"
-            runner-image: ubuntu-22.04
-            classifier: "linuxx86-64"
-            container: ""
+          # - name: "Linux (x64)"
+          #   runner-image: ubuntu-22.04
+          #   classifier: "linuxx86-64"
+          #   container: ""
           - name: "Linux (arm64)"
             runner-image: ubuntu-22.04
             classifier: "linuxarm64"
             container: wpilib/aarch64-cross-ubuntu:bookworm-22.04
-          - name: "macOS"
-            runner-image: macos-latest
-            classifier: "osxuniversal"
-            container: ""
-          - name: "Windows"
-            runner-image: windows-latest
-            classifier: "windowsx86-64"
-            container: ""
+          # - name: "macOS"
+          #   runner-image: macos-latest
+          #   classifier: "osxuniversal"
+          #   container: ""
+          # - name: "Windows"
+          #   runner-image: windows-latest
+          #   classifier: "windowsx86-64"
+          #   container: ""
     name: "Build for ${{ matrix.name }}"
     runs-on: ${{ matrix.runner-image }}
     container: ${{ matrix.container }}
