@@ -8,125 +8,125 @@ on:
     types: [published]
 
 jobs:
-  build-athena:
-    name: "Build for Athena"
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Checkout repository"
-        uses: actions/checkout@v4
-      - name: "Setup Java"
-        uses: actions/setup-java@v3
-        with:
-          distribution: "temurin"
-          java-version: "17"
-      - name: "Install RoboRIO toolchain"
-        run: ./gradlew :akit:installRoboRioToolchain
-      - name: "Build and test"
-        run: ./gradlew :akit:build -Ponlylinuxathena
-      - name: "Development: Publish local"
-        if: github.event_name != 'release'
-        run: ./gradlew :akit:publishAllPublicationsToMavenRepository -Ponlylinuxathena
-      - name: "Release: Get version number"
-        id: get_version
-        if: github.event_name == 'release'
-        uses: battila7/get-version-action@v2
-      - name: "Release: Get release info"
-        id: get_release_info
-        if: github.event_name == 'release'
-        uses: bruceadams/get-release@v1.2.3
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-      - name: "Release: Publish remote"
-        if: github.event_name == 'release'
-        run: ./gradlew :akit:publish -Ponlylinuxathena "-PpublishingVersion=${{ steps.get_version.outputs.version-without-v }}"
-        env:
-          ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
-          ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
-      - name: "Release: Upload vendordep"
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: akit/build/vendordep/AdvantageKit.json
-          asset_name: AdvantageKit.json
-          asset_content_type: application/json
-      - name: "Upload local repo"
-        uses: actions/upload-artifact@v4
-        with:
-          name: maven_linuxathena
-          path: akit/build/repos/releases
-      - name: "Generate template projects"
-        working-directory: template_projects
-        run: |
-          chmod +x generate_projects.sh
-          ./generate_projects.sh
-      - name: "Upload template projects"
-        uses: actions/upload-artifact@v4
-        with:
-          name: template_projects
-          path: template_projects/generated
-      - name: "Release: Upload template project (kitbot_2025)"
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: template_projects/generated/kitbot_2025.zip
-          asset_name: AdvantageKit_KitBot2025Template.zip
-          asset_content_type: application/zip
-      - name: "Release: Upload template project (diff_drive)"
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: template_projects/generated/diff_drive.zip
-          asset_name: AdvantageKit_DiffDriveTemplate.zip
-          asset_content_type: application/zip
-      - name: "Release: Upload template project (spark_swerve)"
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: template_projects/generated/spark_swerve.zip
-          asset_name: AdvantageKit_SparkSwerveTemplate.zip
-          asset_content_type: application/zip
-      - name: "Release: Upload template project (talonfx_swerve)"
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: template_projects/generated/talonfx_swerve.zip
-          asset_name: AdvantageKit_TalonFXSwerveTemplate.zip
-          asset_content_type: application/zip
-      - name: "Release: Upload template project (vision)"
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: template_projects/generated/vision.zip
-          asset_name: AdvantageKit_VisionTemplate.zip
-          asset_content_type: application/zip
-      - name: "Release: Upload template project (skeleton)"
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: template_projects/generated/skeleton.zip
-          asset_name: AdvantageKit_SkeletonTemplate.zip
-          asset_content_type: application/zip
+  # build-athena:
+  #   name: "Build for Athena"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: "Checkout repository"
+  #       uses: actions/checkout@v4
+  #     - name: "Setup Java"
+  #       uses: actions/setup-java@v3
+  #       with:
+  #         distribution: "temurin"
+  #         java-version: "17"
+  #     - name: "Install RoboRIO toolchain"
+  #       run: ./gradlew :akit:installRoboRioToolchain
+  #     - name: "Build and test"
+  #       run: ./gradlew :akit:build -Ponlylinuxathena
+  #     - name: "Development: Publish local"
+  #       if: github.event_name != 'release'
+  #       run: ./gradlew :akit:publishAllPublicationsToMavenRepository -Ponlylinuxathena
+  #     - name: "Release: Get version number"
+  #       id: get_version
+  #       if: github.event_name == 'release'
+  #       uses: battila7/get-version-action@v2
+  #     - name: "Release: Get release info"
+  #       id: get_release_info
+  #       if: github.event_name == 'release'
+  #       uses: bruceadams/get-release@v1.2.3
+  #       env:
+  #         GITHUB_TOKEN: ${{ github.token }}
+  #     - name: "Release: Publish remote"
+  #       if: github.event_name == 'release'
+  #       run: ./gradlew :akit:publish -Ponlylinuxathena "-PpublishingVersion=${{ steps.get_version.outputs.version-without-v }}"
+  #       env:
+  #         ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
+  #         ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+  #     - name: "Release: Upload vendordep"
+  #       if: github.event_name == 'release'
+  #       uses: actions/upload-release-asset@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ github.token }}
+  #       with:
+  #         upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+  #         asset_path: akit/build/vendordep/AdvantageKit.json
+  #         asset_name: AdvantageKit.json
+  #         asset_content_type: application/json
+  #     - name: "Upload local repo"
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: maven_linuxathena
+  #         path: akit/build/repos/releases
+  #     - name: "Generate template projects"
+  #       working-directory: template_projects
+  #       run: |
+  #         chmod +x generate_projects.sh
+  #         ./generate_projects.sh
+  #     - name: "Upload template projects"
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: template_projects
+  #         path: template_projects/generated
+  #     - name: "Release: Upload template project (kitbot_2025)"
+  #       if: github.event_name == 'release'
+  #       uses: actions/upload-release-asset@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ github.token }}
+  #       with:
+  #         upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+  #         asset_path: template_projects/generated/kitbot_2025.zip
+  #         asset_name: AdvantageKit_KitBot2025Template.zip
+  #         asset_content_type: application/zip
+  #     - name: "Release: Upload template project (diff_drive)"
+  #       if: github.event_name == 'release'
+  #       uses: actions/upload-release-asset@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ github.token }}
+  #       with:
+  #         upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+  #         asset_path: template_projects/generated/diff_drive.zip
+  #         asset_name: AdvantageKit_DiffDriveTemplate.zip
+  #         asset_content_type: application/zip
+  #     - name: "Release: Upload template project (spark_swerve)"
+  #       if: github.event_name == 'release'
+  #       uses: actions/upload-release-asset@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ github.token }}
+  #       with:
+  #         upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+  #         asset_path: template_projects/generated/spark_swerve.zip
+  #         asset_name: AdvantageKit_SparkSwerveTemplate.zip
+  #         asset_content_type: application/zip
+  #     - name: "Release: Upload template project (talonfx_swerve)"
+  #       if: github.event_name == 'release'
+  #       uses: actions/upload-release-asset@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ github.token }}
+  #       with:
+  #         upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+  #         asset_path: template_projects/generated/talonfx_swerve.zip
+  #         asset_name: AdvantageKit_TalonFXSwerveTemplate.zip
+  #         asset_content_type: application/zip
+  #     - name: "Release: Upload template project (vision)"
+  #       if: github.event_name == 'release'
+  #       uses: actions/upload-release-asset@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ github.token }}
+  #       with:
+  #         upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+  #         asset_path: template_projects/generated/vision.zip
+  #         asset_name: AdvantageKit_VisionTemplate.zip
+  #         asset_content_type: application/zip
+  #     - name: "Release: Upload template project (skeleton)"
+  #       if: github.event_name == 'release'
+  #       uses: actions/upload-release-asset@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ github.token }}
+  #       with:
+  #         upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+  #         asset_path: template_projects/generated/skeleton.zip
+  #         asset_name: AdvantageKit_SkeletonTemplate.zip
+  #         asset_content_type: application/zip
 
   build-desktop:
     strategy:
